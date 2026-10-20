@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Fight Circuit (TFC)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { gold: '#D4AF37', red: '#E53E3E', dark: '#0B0E14', surface: '#151A23', card: '#1D2432', border: '#2D3748' }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body { background-color: #0B0E14; color: #E2E8F0; font-family: system-ui, -apple-system, sans-serif; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0B0E14; }
+    ::-webkit-scrollbar-thumb { background: #2D3748; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-brand-gold selection:text-black">
+
+  <!-- Top Navigation -->
+  <header class="border-b border-brand-border bg-brand-surface/90 backdrop-blur sticky top-0 z-50 px-6 py-3.5 flex items-center justify-between shadow-xl">
+    <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('hq')">
+      <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center font-black text-xl text-black shadow-lg">TFC</div>
+      <h1 class="text-xl font-black tracking-widest uppercase text-white">The Fight Circuit</h1>
+    </div>
+    
+    <nav class="hidden md:flex items-center space-x-1 bg-brand-dark/70 p-1 rounded-xl border border-brand-border">
+      <button onclick="switchTab('hq')" id="tab-hq" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-brand-gold bg-brand-card shadow">
+        <i class="fa-solid fa-gauge-high"></i> Headquarters
+      </button>
+      <button onclick="switchTab('rankings')" id="tab-rankings" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-2">
+        <i class="fa-solid fa-trophy"></i> Rankings
+      </button>
+      <button onclick="switchTab('events')" id="tab-events" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-2">
+        <i class="fa-solid fa-calendar-days"></i> Events Schedule
+      </button>
+      <button onclick="switchTab('media')" id="tab-media" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-2">
+        <i class="fa-solid fa-microphone-lines"></i> Media
+      </button>
+      <button onclick="switchTab('rules')" id="tab-rules" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-2">
+        <i class="fa-solid fa-book-journal-whills"></i> Handbook & Rules
+      </button>
+      <button onclick="switchTab('about')" id="tab-about" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-2">
+        <i class="fa-solid fa-circle-info"></i> About TFC
+      </button>
+    </nav>
+
+    <div class="flex items-center space-x-2">
+      <span id="syncIndicator" class="text-xs font-mono text-emerald-400 bg-emerald-950/50 border border-emerald-800 px-2.5 py-1 rounded-lg flex items-center gap-1.5">
+        <i class="fa-solid fa-circle text-[8px] animate-pulse"></i> Live Sync
+      </span>
+    </div>
+  </header>
+
+  <!-- Mobile Subnav -->
+  <div class="md:hidden flex overflow-x-auto space-x-2 p-3 bg-brand-surface border-b border-brand-border text-xs font-bold uppercase tracking-wider">
+    <button onclick="switchTab('hq')" class="px-3 py-1 rounded bg-brand-card text-brand-gold shrink-0">HQ</button>
+    <button onclick="switchTab('rankings')" class="px-3 py-1 rounded bg-brand-card text-slate-300 shrink-0">Rankings</button>
+    <button onclick="switchTab('events')" class="px-3 py-1 rounded bg-brand-card text-slate-300 shrink-0">Events</button>
+    <button onclick="switchTab('media')" class="px-3 py-1 rounded bg-brand-card text-slate-300 shrink-0">Media</button>
+    <button onclick="switchTab('rules')" class="px-3 py-1 rounded bg-brand-card text-slate-300 shrink-0">Rules</button>
+    <button onclick="switchTab('about')" class="px-3 py-1 rounded bg-brand-card text-slate-300 shrink-0">About</button>
+  </div>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- HQ TAB -->
+    <section id="view-hq" class="tab-view space-y-10">
+      <div class="space-y-4">
+        <div class="flex items-center justify-between border-b border-brand-border pb-3">
+          <div>
+            <span class="text-xs font-black uppercase tracking-widest text-brand-gold flex items-center gap-2">
+              <i class="fa-solid fa-crown text-amber-400"></i> Reigning World Champions
+            </span>
+            <h2 class="text-2xl font-black uppercase text-white tracking-wide mt-0.5">Titleholders Showcase</h2>
+          </div>
+          <button onclick="switchTab('rankings')" class="text-xs font-bold uppercase text-brand-gold hover:text-amber-300 transition-colors">
+            View Full Ladders <i class="fa-solid fa-arrow-right ml-1"></i>
+          </button>
+        </div>
+
+        <div id="hqChampionsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
+          <div class="col-span-full py-8 text-center text-slate-500 font-mono text-xs">Connecting to Google Sheet...</div>
+        </div>
+      </div>
+
+      <div class="space-y-6 pt-2">
+        <div class="border-b border-brand-border pb-3">
+          <span class="text-xs font-black uppercase tracking-widest text-brand-gold">Promotional Wire</span>
+          <h2 class="text-2xl font-black uppercase text-white tracking-wide mt-0.5">Latest Announcements & Press</h2>
+        </div>
+        <div id="hqFeaturedNews" class="w-full"></div>
+        <div id="hqNewsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
+    </section>
+
+    <!-- RANKINGS TAB -->
+    <section id="view-rankings" class="tab-view hidden space-y-6">
+      <div class="bg-brand-surface border border-brand-border rounded-xl p-4 sm:p-5 flex flex-wrap gap-4 items-center justify-between shadow-lg">
+        <div class="flex-1 min-w-[240px] relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+          <input type="text" id="rosterSearch" oninput="renderRankings()" placeholder="Search fighter name..." 
+            class="w-full bg-brand-dark border border-brand-border rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-gold">
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <select id="divisionFilter" onchange="renderRankings()" class="bg-brand-dark border border-brand-border rounded-lg px-3 py-2 text-sm text-slate-200">
+            <option value="ALL">All Weight Classes (Heavyweight to Flyweight)</option>
+            <option value="Heavyweight">Heavyweight (265 lbs)</option>
+            <option value="Light Heavyweight">Light Heavyweight (205 lbs)</option>
+            <option value="Middleweight">Middleweight (185 lbs)</option>
+            <option value="Welterweight">Welterweight (170 lbs)</option>
+            <option value="Lightweight">Lightweight (155 lbs)</option>
+            <option value="Featherweight">Featherweight (145 lbs)</option>
+            <option value="Bantamweight">Bantamweight (135 lbs)</option>
+            <option value="Flyweight">Flyweight (125 lbs)</option>
+          </select>
+          <select id="statusFilter" onchange="renderRankings()" class="bg-brand-dark border border-brand-border rounded-lg px-3 py-2 text-sm text-slate-200">
+            <option value="ALL">All Roster Status</option>
+            <option value="active">Active Fighters</option>
+            <option value="inactive">Inactive Fighters</option>
+            <option value="champions">Champions (Undisputed & Interim)</option>
+          </select>
+        </div>
+      </div>
+      <div id="rankingsDisplayContainer" class="space-y-10"></div>
+    </section>
+
+    <!-- EVENTS TAB -->
+    <section id="view-events" class="tab-view hidden space-y-6">
+      <div class="border-b border-brand-border pb-4">
+        <span class="text-xs font-black uppercase tracking-widest text-brand-gold">Promotional Schedule</span>
+        <h2 class="text-3xl font-black uppercase text-white tracking-wide mt-1">Fight Schedule & Events Center</h2>
+        <p class="text-xs text-slate-400 mt-1">Official chronological fight itinerary across all Pay-Per-View and Circuit 365 cards.</p>
+      </div>
+      <div id="eventsListUnified" class="space-y-16"></div>
+    </section>
+
+    <!-- MEDIA TAB -->
+    <section id="view-media" class="tab-view hidden space-y-6">
+      <div class="border-b border-brand-border pb-4">
+        <span class="text-xs font-black uppercase tracking-widest text-brand-gold">Press Room & Transcripts</span>
+        <h2 class="text-3xl font-black uppercase text-white tracking-wide mt-1">Press Conferences & Media Center</h2>
+        <p class="text-xs text-slate-400 mt-1">Official pre-fight conferences, fighter scrums, and faceoff coverage.</p>
+      </div>
+      <div id="mediaFeaturedContainer" class="w-full"></div>
+      <div id="mediaGridContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"></div>
+    </section>
+
+    <!-- RULES TAB -->
+    <section id="view-rules" class="tab-view hidden space-y-6">
+      <div class="bg-brand-surface border border-brand-border rounded-2xl p-6 sm:p-8 space-y-6">
+        <h2 class="text-3xl font-black text-white uppercase">Rulebook & Scoring Matrix</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-brand-card p-5 rounded-xl border border-brand-border/60">
+            <h4 class="text-amber-400 font-bold mb-2">50-Point RP Matrix</h4>
+            <p class="text-xs text-slate-300">Narrative Depth: 20 pts<br>Fight IQ: 15 pts<br>Character Voice: 15 pts</p>
+          </div>
+          <div class="bg-brand-card p-5 rounded-xl border border-brand-border/60">
+            <h4 class="text-amber-400 font-bold mb-2">6-Week Fight Cycle</h4>
+            <p class="text-xs text-slate-300">W1-2: Sparring / Match Announcement<br>W3-4: Media Days<br>W5: Weigh-Ins<br>W6: Fight Night Broadcast</p>
+          </div>
+          <div class="bg-brand-card p-5 rounded-xl border border-brand-border/60">
+            <h4 class="text-amber-400 font-bold mb-2">25-Point Creation Cap</h4>
+            <p class="text-xs text-slate-300">Exactly 25 points across Striking, Grappling, Stamina, Health (max 10 per stat).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT TAB -->
+    <section id="view-about" class="tab-view hidden space-y-6">
+      <div class="bg-brand-surface border border-brand-border rounded-2xl p-6 sm:p-8 space-y-4">
+        <h2 class="text-3xl font-black text-white uppercase">About The Fight Circuit</h2>
+        <p class="text-sm text-slate-300 leading-relaxed">
+          The Fight Circuit (TFC) is an authentic fantasy MMA e-federation combining tactical martial arts realism with character-driven narrative competition. Built across 8 global divisions from Heavyweight down to Flyweight.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- FIGHTER PROFILE MODAL -->
+  <div id="fighterProfileModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-brand-surface border border-brand-border rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-start border-b border-brand-border pb-3">
+        <div>
+          <span id="modalFighterBadge" class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-brand-card text-brand-gold border border-brand-border"></span>
+          <h3 class="text-2xl font-black text-white mt-1" id="modalFighterName"></h3>
+          <p class="text-xs text-amber-300 italic" id="modalFighterNickname"></p>
+        </div>
+        <button onclick="closeFighterProfileModal()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="bg-brand-dark/60 px-3.5 py-2 rounded-lg border border-brand-border/70 flex items-center justify-between text-xs">
+        <div class="flex items-center gap-2 text-slate-300">
+          <i class="fa-solid fa-location-dot text-brand-gold text-xs"></i>
+          <span id="modalFighterHometown" class="font-semibold text-slate-200"></span>
+        </div>
+        <div class="flex items-center gap-2 text-slate-300">
+          <i class="fa-solid fa-flag text-brand-gold text-xs"></i>
+          <span id="modalFighterNationality" class="font-semibold text-slate-200"></span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-brand-dark p-3 rounded-xl border border-brand-border text-center text-xs">
+        <div><span class="text-[10px] text-slate-500 uppercase font-bold block">Height</span><span class="font-bold text-slate-200" id="modalFighterHeight"></span></div>
+        <div><span class="text-[10px] text-slate-500 uppercase font-bold block">Stance</span><span class="font-bold text-slate-200" id="modalFighterStance"></span></div>
+        <div><span class="text-[10px] text-slate-500 uppercase font-bold block">Record</span><span class="font-bold text-brand-gold font-mono" id="modalFighterRecord"></span></div>
+        <div><span class="text-[10px] text-slate-500 uppercase font-bold block">Style</span><span class="font-bold text-slate-200 truncate block" id="modalFighterStyle"></span></div>
+      </div>
+
+      <div class="grid grid-cols-4 gap-3 text-center bg-brand-dark/90 p-3.5 rounded-xl border border-brand-border">
+        <div><span class="text-[10px] text-slate-400 uppercase font-bold block">STR</span><span class="font-mono font-bold text-red-400 text-base" id="modalFighterStr"></span></div>
+        <div><span class="text-[10px] text-slate-400 uppercase font-bold block">GRP</span><span class="font-mono font-bold text-blue-400 text-base" id="modalFighterGrp"></span></div>
+        <div><span class="text-[10px] text-slate-400 uppercase font-bold block">STA</span><span class="font-mono font-bold text-emerald-400 text-base" id="modalFighterSta"></span></div>
+        <div><span class="text-[10px] text-slate-400 uppercase font-bold block">HP</span><span class="font-mono font-bold text-amber-400 text-base" id="modalFighterHp"></span></div>
+      </div>
+
+      <div>
+        <h4 class="text-xs font-bold text-slate-400 uppercase mb-1">Biography</h4>
+        <p class="text-xs text-slate-300 leading-relaxed bg-brand-dark p-3 rounded-lg border border-brand-border" id="modalFighterBio"></p>
+      </div>
+
+      <div class="flex justify-end pt-2">
+        <button onclick="closeFighterProfileModal()" class="px-5 py-2 rounded-lg text-xs font-bold bg-brand-gold text-black hover:bg-amber-400">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FULL TRANSCRIPT READER MODAL -->
+  <div id="mediaReaderModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-brand-surface border border-brand-border rounded-2xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl space-y-5 max-h-[90vh] flex flex-col">
+      <div class="flex justify-between items-start border-b border-brand-border pb-4 shrink-0">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span id="readerModalType" class="px-2 py-0.5 rounded bg-red-950 text-red-400 font-bold uppercase text-[10px] border border-red-800"></span>
+            <span id="readerModalDate" class="text-xs font-mono text-slate-400"></span>
+          </div>
+          <h3 id="readerModalTitle" class="text-xl sm:text-2xl font-black text-white uppercase tracking-tight"></h3>
+          <p id="readerModalPanel" class="text-xs text-brand-gold font-semibold"></p>
+        </div>
+        <button onclick="closeMediaReaderModal()" class="text-slate-400 hover:text-white text-xl p-1"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div id="readerModalBody" class="flex-1 overflow-y-auto pr-2 text-sm sm:text-base text-slate-200 leading-relaxed space-y-4 font-normal bg-brand-dark/50 p-5 rounded-xl border border-brand-border/60">
+      </div>
+
+      <div class="flex justify-end pt-2 shrink-0 border-t border-brand-border">
+        <button onclick="closeMediaReaderModal()" class="px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-brand-card hover:bg-brand-border text-slate-200">Close Transcript</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SHEET_ID = "1fBcrV8lAn8-Web3K9_XeUSEddMizmbho9fS42C6oWDE";
+
+    const DIVISIONS_ORDER = ['Heavyweight', 'Light Heavyweight', 'Middleweight', 'Welterweight', 'Lightweight', 'Featherweight', 'Bantamweight', 'Flyweight'];
+    
+    let fighters = [];
+    let events = [];
+    let news = [];
+    let media = [];
+
+    // Bulletproof Global Dropdown Toggle for Unranked Fighters
+    window.toggleRosterDropdown = function(containerId) {
+      const container = document.getElementById(containerId);
+      const textEl = document.getElementById('txt-' + containerId);
+      const iconEl = document.getElementById('ico-' + containerId);
+      if (!container) return;
+
+      const isHidden = container.classList.contains('hidden');
+      if (isHidden) {
+        container.classList.remove('hidden');
+        if (textEl) textEl.textContent = textEl.textContent.replace('SHOW', 'HIDE');
+        if (iconEl) {
+          iconEl.classList.remove('fa-chevron-down');
+          iconEl.classList.add('fa-chevron-up');
+        }
+      } else {
+        container.classList.add('hidden');
+        if (textEl) textEl.textContent = textEl.textContent.replace('HIDE', 'SHOW');
+        if (iconEl) {
+          iconEl.classList.remove('fa-chevron-up');
+          iconEl.classList.add('fa-chevron-down');
+        }
+      }
+    };
+
+    function getSurname(name) {
+      if (!name) return '';
+      const parts = name.trim().split(/\s+/);
+      if (parts.length === 1) return parts[0].toLowerCase();
+      const last = parts[parts.length - 1].toLowerCase();
+      if (['jr', 'jr.', 'sr', 'sr.', 'ii', 'iii', 'iv'].includes(last) && parts.length > 1) {
+        return parts[parts.length - 2].toLowerCase();
+      }
+      return last;
+    }
+
+    function computeFallbackStats(style) {
+      const s = (style || '').toLowerCase();
+      if (s.includes('wrestl') || s.includes('sambo') || s.includes('judo') || s.includes('kokawa')) {
+        return { str: 5, grp: 8, sta: 7, hp: 5 };
+      } else if (s.includes('jiu-jitsu') || s.includes('bjj') || s.includes('catch') || s.includes('luta')) {
+        return { str: 4, grp: 8, sta: 6, hp: 7 };
+      } else if (s.includes('box') || s.includes('kickbox') || s.includes('muay thai') || s.includes('k-1') || s.includes('savate') || s.includes('striking')) {
+        return { str: 8, grp: 4, sta: 7, hp: 6 };
+      }
+      return { str: 7, grp: 6, sta: 6, hp: 6 };
+    }
+
+    function renderFighterNameWithChampBadge(name, isChamp) {
+      if (!isChamp) {
+        return `<span class="inline-flex items-center leading-none">${name}</span>`;
+      }
+      return `<span class="inline-flex items-center gap-2 leading-none"><span class="inline-flex items-center justify-center w-5 h-5 rounded bg-brand-gold text-black font-black text-xs shrink-0 shadow" title="Defending Champion">C</span><span>${name}</span></span>`;
+    }
+
+    function makeCleanPreview(htmlOrText, maxLen = 160) {
+      if (!htmlOrText) return '';
+      const tmp = document.createElement('div');
+      tmp.innerHTML = htmlOrText;
+      const clean = (tmp.textContent || tmp.innerText || '').trim().replace(/\s+/g, ' ');
+      if (clean.length <= maxLen) return clean;
+      return clean.substring(0, maxLen).trim() + '...';
+    }
+
+    function formatTranscriptHTML(raw) {
+      if (!raw) return '';
+      return raw.replace(/\n/g, '<br>');
+    }
+
+    async function loadDataFromGoogleSheet() {
+      const indicator = document.getElementById('syncIndicator');
+      try {
+        indicator.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-[10px]"></i> Syncing...';
+        
+        const [fightersRes, eventsRes, boutsRes, newsRes, mediaRes] = await Promise.all([
+          fetch(`https://opensheet.elk.sh/${SHEET_ID}/Fighters`),
+          fetch(`https://opensheet.elk.sh/${SHEET_ID}/Events`),
+          fetch(`https://opensheet.elk.sh/${SHEET_ID}/Bouts`),
+          fetch(`https://opensheet.elk.sh/${SHEET_ID}/News`),
+          fetch(`https://opensheet.elk.sh/${SHEET_ID}/Media`).catch(() => null)
+        ]);
+
+        const rawFighters = await fightersRes.json();
+        const rawEvents = await eventsRes.json();
+        const rawBouts = await boutsRes.json();
+        const rawNews = await newsRes.json();
+        let rawMedia = [];
+        if (mediaRes && mediaRes.ok) {
+          try { rawMedia = await mediaRes.json(); } catch(e) { rawMedia = []; }
+        }
+
+        fighters = rawFighters.map((f, i) => {
+          const fallback = computeFallbackStats(f.style);
+          return {
+            id: 'f_' + (i + 1),
+            name: f.name || 'Fighter',
+            division: f.division || 'Heavyweight',
+            nationality: f.nationality || 'USA',
+            hometown: f.hometown || 'Las Vegas',
+            style: f.style || 'MMA',
+            height: f.height || "5'10",
+            stance: f.stance || 'Orthodox',
+            str: parseInt(f.str) || fallback.str,
+            grp: parseInt(f.grp) || fallback.grp,
+            sta: parseInt(f.sta) || fallback.sta,
+            hp: parseInt(f.hp) || fallback.hp,
+            record: f.record || '0-0-0',
+            rank: parseInt(f.rank) || 0,
+            champStatus: (f.champStatus || 'none').toLowerCase(),
+            activeStatus: (f.activeStatus || 'active').toLowerCase(),
+            nickname: f.nickname || '',
+            bio: f.bio || ''
+          };
+        });
+
+        events = rawEvents.map(e => ({
+          id: e.eventId,
+          name: e.name,
+          type: e.type,
+          date: e.date,
+          venue: e.venue,
+          fights: rawBouts.filter(b => b.eventId === e.eventId).map(b => {
+            const rawTier = (b.cardTier || b.type || '').toLowerCase();
+            let tier = 'undercard';
+            let cardSection = 'prelims';
+
+            if (rawTier.includes('main') && !rawTier.includes('card') && !rawTier.includes('co')) {
+              tier = 'main';
+            } else if (rawTier.includes('comain') || rawTier.includes('co-main')) {
+              tier = 'comain';
+            } else if (rawTier.includes('main card') || rawTier.includes('maincard')) {
+              tier = 'undercard';
+              cardSection = 'main card';
+            } else {
+              tier = 'undercard';
+              cardSection = 'prelims';
+            }
+
+            const isTitle = String(b.isTitleFight).toUpperCase() === 'TRUE' || (b.type || '').toLowerCase().includes('championship') || (b.type || '').toLowerCase().includes('title');
+            let roundsNum = parseInt(b.rounds);
+            if (!roundsNum) {
+              roundsNum = (tier === 'main' || isTitle) ? 5 : 3;
+            }
+
+            return {
+              f1: b.f1,
+              f2: b.f2,
+              div: b.div,
+              cardTier: tier,
+              cardSection: cardSection,
+              f1Champ: String(b.f1Champ).toUpperCase() === 'TRUE',
+              f2Champ: String(b.f2Champ).toUpperCase() === 'TRUE',
+              isTitleFight: isTitle,
+              rounds: roundsNum
+            };
+          })
+        }));
+
+        news = rawNews.map((n, i) => ({
+          id: 'n_' + (i + 1),
+          title: n.title,
+          category: n.category || '',
+          date: n.date,
+          content: n.content,
+          featured: String(n.featured).toUpperCase() === 'TRUE'
+        }));
+
+        media = (rawMedia || []).map((m, i) => ({
+          id: 'm_' + (i + 1),
+          title: m.title || 'Press Conference',
+          type: m.type || 'Press Conference',
+          event: m.event || '',
+          date: m.date || '',
+          participants: m.participants || '',
+          preview: (m.preview && m.preview.trim()) ? m.preview.trim() : '',
+          content: m.content || '',
+          featured: String(m.featured).toUpperCase() === 'TRUE'
+        }));
+
+        indicator.innerHTML = '<i class="fa-solid fa-circle text-[8px] animate-pulse"></i> Live Sync';
+        renderHQ();
+      } catch (err) {
+        console.error("Sheet loading error:", err);
+        indicator.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-red-400"></i> Sync Error';
+        document.getElementById('hqChampionsGrid').innerHTML = `
+          <div class="col-span-full py-6 text-center text-red-400 text-xs">
+            Could not read data from Google Sheet. Please check sharing permissions and tab names.
+          </div>
+        `;
+      }
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('text-brand-gold', 'bg-brand-card', 'shadow');
+        btn.classList.add('text-slate-400');
+      });
+      const v = document.getElementById('view-' + tabId);
+      if (v) v.classList.remove('hidden');
+      const b = document.getElementById('tab-' + tabId);
+      if (b) {
+        b.classList.add('text-brand-gold', 'bg-brand-card', 'shadow');
+        b.classList.remove('text-slate-400');
+      }
+      if (tabId === 'hq') renderHQ();
+      if (tabId === 'rankings') renderRankings();
+      if (tabId === 'events') renderEvents();
+      if (tabId === 'media') renderMedia();
+    }
+
+    function renderHQ() {
+      const champGrid = document.getElementById('hqChampionsGrid');
+      let champsHTML = '';
+
+      DIVISIONS_ORDER.forEach(divName => {
+        const divFighters = fighters.filter(f => f.division === divName);
+        const champ = divFighters.find(f => f.champStatus === 'champion');
+        const interim = divFighters.find(f => f.champStatus === 'interim');
+
+        champsHTML += `
+          <div class="bg-brand-surface border border-brand-border hover:border-brand-gold/60 rounded-xl p-4 shadow-lg transition-all space-y-3">
+            <div class="flex items-center justify-between text-[11px] font-black uppercase border-b border-brand-border/60 pb-2">
+              <span class="text-blue-400 tracking-wider font-extrabold">${divName}</span>
+              <i class="fa-solid fa-shield-halved text-blue-500/60"></i>
+            </div>
+            
+            ${champ ? `
+              <div onclick="openFighterProfileModal('${champ.id}')" class="cursor-pointer group">
+                <span class="text-[9px] font-black uppercase text-brand-gold flex items-center gap-1 mb-0.5">
+                  <i class="fa-solid fa-crown text-[10px]"></i> Undisputed Champ
+                </span>
+                <div class="flex items-center justify-between">
+                  <h4 class="text-base font-black text-white group-hover:text-amber-400 transition-colors truncate">${champ.name}</h4>
+                  <span class="font-mono text-xs font-bold text-brand-gold shrink-0 ml-2">${champ.record}</span>
+                </div>
+              </div>
+            ` : `
+              <div class="text-xs text-slate-500 italic py-1">Vacant Championship</div>
+            `}
+
+            ${interim ? `
+              <div onclick="openFighterProfileModal('${interim.id}')" class="cursor-pointer group pt-2.5 border-t border-brand-border/60">
+                <span class="text-[9px] font-black uppercase text-red-400 flex items-center gap-1 mb-0.5">
+                  <i class="fa-solid fa-shield text-[10px]"></i> Interim Champ
+                </span>
+                <div class="flex items-center justify-between">
+                  <h5 class="text-sm font-bold text-white group-hover:text-red-300 transition-colors truncate">${interim.name}</h5>
+                  <span class="font-mono text-xs font-bold text-red-400 shrink-0 ml-2">${interim.record}</span>
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      });
+      champGrid.innerHTML = champsHTML;
+
+      const featured = news.find(n => n.featured) || news[0];
+      const remaining = news.filter(n => n.id !== featured?.id);
+
+      const featuredContainer = document.getElementById('hqFeaturedNews');
+      if (featured) {
+        featuredContainer.innerHTML = `
+          <div class="w-full bg-gradient-to-r from-amber-950/40 via-brand-surface to-brand-card border border-brand-gold/40 rounded-2xl p-6 sm:p-8 shadow-xl space-y-3">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded bg-brand-gold text-black font-black uppercase text-[10px] tracking-wider">Top Story</span>
+              <span class="text-xs font-mono text-slate-400">${featured.date}</span>
+              ${featured.category ? `<span class="px-2 py-0.5 rounded bg-brand-card text-brand-gold font-bold uppercase text-[10px] border border-brand-border">${featured.category}</span>` : ''}
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight leading-tight">${featured.title}</h3>
+            <p class="text-sm text-slate-300 leading-relaxed w-full">${featured.content}</p>
+          </div>
+        `;
+      } else {
+        featuredContainer.innerHTML = '';
+      }
+
+      const grid = document.getElementById('hqNewsGrid');
+      grid.innerHTML = remaining.map(n => `
+        <div class="bg-brand-surface border border-brand-border hover:border-brand-gold/40 rounded-xl p-5 shadow-lg flex flex-col justify-between transition-all space-y-3">
+          <div>
+            <div class="flex items-center justify-between text-xs mb-2">
+              <span class="text-slate-400 font-mono text-[11px]">${n.date}</span>
+              ${n.category ? `<span class="px-2 py-0.5 rounded bg-brand-card text-brand-gold font-bold uppercase text-[10px] border border-brand-border">${n.category}</span>` : ''}
+            </div>
+            <h4 class="text-base font-bold text-white mb-2 leading-snug">${n.title}</h4>
+            <p class="text-xs text-slate-300 leading-relaxed">${n.content}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderRankings() {
+      const query = (document.getElementById('rosterSearch')?.value || '').toLowerCase().trim();
+      const divFilter = document.getElementById('divisionFilter')?.value || 'ALL';
+      const statusFilter = document.getElementById('statusFilter')?.value || 'ALL';
+
+      const container = document.getElementById('rankingsDisplayContainer');
+      const targetDivisions = (divFilter === 'ALL') ? DIVISIONS_ORDER : [divFilter];
+
+      let outputHTML = '';
+
+      targetDivisions.forEach(divName => {
+        let divFighters = fighters.filter(f => f.division === divName);
+
+        if (statusFilter === 'active') {
+          divFighters = divFighters.filter(f => f.activeStatus === 'active');
+        } else if (statusFilter === 'inactive') {
+          divFighters = divFighters.filter(f => f.activeStatus === 'inactive');
+        } else if (statusFilter === 'champions') {
+          divFighters = divFighters.filter(f => f.champStatus === 'champion' || f.champStatus === 'interim');
+        }
+
+        if (query) {
+          divFighters = divFighters.filter(f => 
+            f.name.toLowerCase().includes(query) ||
+            (f.nickname && f.nickname.toLowerCase().includes(query))
+          );
+        }
+
+        if (divFighters.length === 0) return;
+
+        const champion = divFighters.find(f => f.champStatus === 'champion');
+        const interimChamps = divFighters.filter(f => f.champStatus === 'interim');
+        
+        const rankedContenders = divFighters
+          .filter(f => f.champStatus !== 'champion' && f.champStatus !== 'interim' && f.rank >= 1 && f.rank <= 10)
+          .sort((a, b) => a.rank - b.rank);
+
+        const unrankedFighters = divFighters
+          .filter(f => f.champStatus !== 'champion' && f.champStatus !== 'interim' && (!f.rank || f.rank === 0 || f.rank > 10))
+          .sort((a, b) => getSurname(a.name).localeCompare(getSurname(b.name)));
+
+        let champBlock = '';
+        if (champion) {
+          const isActive = champion.activeStatus === 'active';
+          champBlock = `
+            <div onclick="openFighterProfileModal('${champion.id}')" class="cursor-pointer bg-gradient-to-r from-amber-950/50 via-brand-dark to-brand-card p-5 rounded-xl border border-brand-gold/60 hover:border-brand-gold transition-all shadow-lg flex items-center justify-between group">
+              <div>
+                <span class="text-[10px] font-black uppercase text-brand-gold tracking-widest flex items-center gap-1.5">
+                  <i class="fa-solid fa-crown text-brand-gold"></i> UNDISPUTED CHAMPION
+                </span>
+                <h4 class="text-xl font-black text-white group-hover:text-amber-400 transition-colors mt-1">${champion.name}</h4>
+                ${champion.nickname ? `<p class="text-xs italic text-amber-300 font-semibold mb-1">"${champion.nickname}"</p>` : ''}
+                <span class="inline-block text-[9px] font-bold uppercase px-2 py-0.5 rounded mt-1 ${isActive ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800' : 'bg-red-950/80 text-red-400 border border-red-800'}">
+                  ${isActive ? 'Active' : 'Inactive'}
+                </span>
+              </div>
+              <div class="text-right">
+                <span class="text-sm font-mono font-bold text-brand-gold">${champion.record}</span>
+                <p class="text-[10px] text-slate-500 mt-1">Profile</p>
+              </div>
+            </div>
+          `;
+        } else {
+          champBlock = `
+            <div class="bg-brand-dark/60 p-4 rounded-xl border border-brand-border border-dashed text-center text-slate-500 text-xs font-mono">
+              No Undisputed Champion Crowned
+            </div>
+          `;
+        }
+
+        let interimBlock = '';
+        if (interimChamps.length > 0) {
+          interimBlock = interimChamps.map(ic => {
+            const isActive = ic.activeStatus === 'active';
+            return `
+              <div onclick="openFighterProfileModal('${ic.id}')" class="cursor-pointer bg-gradient-to-r from-red-950/40 via-brand-dark to-brand-card p-5 rounded-xl border border-red-500/50 hover:border-red-400 transition-all shadow-lg flex items-center justify-between group">
+                <div>
+                  <span class="text-[10px] font-black uppercase text-red-400 tracking-widest flex items-center gap-1.5">
+                    <i class="fa-solid fa-shield text-red-400"></i> INTERIM CHAMPION
+                  </span>
+                  <h4 class="text-xl font-black text-white group-hover:text-red-300 transition-colors mt-1">${ic.name}</h4>
+                  ${ic.nickname ? `<p class="text-xs italic text-red-300 font-semibold mb-1">"${ic.nickname}"</p>` : ''}
+                  <span class="inline-block text-[9px] font-bold uppercase px-2 py-0.5 rounded mt-1 ${isActive ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800' : 'bg-red-950/80 text-red-400 border border-red-800'}">
+                    ${isActive ? 'Active' : 'Inactive'}
+                  </span>
+                </div>
+                <div class="text-right">
+                  <span class="text-sm font-mono font-bold text-red-400">${ic.record}</span>
+                  <p class="text-[10px] text-slate-500 mt-1">Profile</p>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
+        let contendersBlock = '';
+        if (rankedContenders.length > 0) {
+          contendersBlock = `
+            <div>
+              <h5 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-list-ol text-brand-gold"></i> Top 10 Contenders
+              </h5>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                ${rankedContenders.map(c => {
+                  const isActive = c.activeStatus === 'active';
+                  return `
+                    <div onclick="openFighterProfileModal('${c.id}')" class="cursor-pointer bg-brand-dark/70 hover:bg-brand-card border border-brand-border hover:border-brand-gold/40 p-3 rounded-xl transition-all flex items-center justify-between group">
+                      <div class="flex items-center gap-2.5 truncate">
+                        <span class="w-6 h-6 rounded bg-brand-surface border border-brand-border flex items-center justify-center font-mono font-bold text-brand-gold text-xs shrink-0">
+                          #${c.rank}
+                        </span>
+                        <div class="truncate">
+                          <h6 class="text-xs font-bold text-white group-hover:text-amber-400 transition-colors truncate">${c.name}</h6>
+                          <span class="inline-block text-[8px] font-bold uppercase px-1.5 py-0.2 rounded mt-0.5 ${isActive ? 'text-emerald-400 bg-emerald-950/50' : 'text-red-400 bg-red-950/50'}">
+                            ${isActive ? 'Active' : 'Inactive'}
+                          </span>
+                        </div>
+                      </div>
+                      <span class="text-xs font-mono font-semibold text-slate-300 ml-2 shrink-0">${c.record}</span>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        // Dropdown Collapsible Unranked Block
+        let unrankedBlock = '';
+        if (unrankedFighters.length > 0) {
+          const collapseId = `unranked-${divName.replace(/\s+/g, '-').toLowerCase()}`;
+          unrankedBlock = `
+            <div class="pt-2 border-t border-brand-border/60">
+              <button 
+                type="button"
+                onclick="window.toggleRosterDropdown('${collapseId}')" 
+                class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-brand-dark/70 hover:bg-brand-card border border-brand-border text-slate-300 hover:text-white transition-all text-xs font-black uppercase tracking-wider group"
+              >
+                <span class="flex items-center gap-2">
+                  <i class="fa-solid fa-users text-brand-gold"></i>
+                  <span id="txt-${collapseId}">SHOW UNRANKED FIGHTERS (${unrankedFighters.length})</span>
+                </span>
+                <i id="ico-${collapseId}" class="fa-solid fa-chevron-down text-slate-400 group-hover:text-brand-gold transition-transform duration-200"></i>
+              </button>
+
+              <div id="${collapseId}" class="hidden mt-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                  ${unrankedFighters.map(u => {
+                    const isActive = u.activeStatus === 'active';
+                    return `
+                      <div onclick="openFighterProfileModal('${u.id}')" class="cursor-pointer bg-brand-dark/40 hover:bg-brand-card border border-brand-border/50 hover:border-brand-border p-2.5 rounded-lg transition-all flex items-center justify-between group text-xs">
+                        <div class="truncate mr-2">
+                          <span class="font-semibold text-slate-200 group-hover:text-white truncate block">${u.name}</span>
+                          <span class="inline-block text-[8px] font-bold uppercase px-1.5 py-0.2 rounded mt-0.5 ${isActive ? 'text-emerald-400 bg-emerald-950/50' : 'text-red-400 bg-red-950/50'}">
+                            ${isActive ? 'Active' : 'Inactive'}
+                          </span>
+                        </div>
+                        <span class="font-mono text-slate-400 text-[11px] shrink-0">${u.record}</span>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        outputHTML += `
+          <div class="bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-xl space-y-6">
+            <div class="border-b border-brand-border pb-3">
+              <h3 class="text-2xl font-black uppercase tracking-wider text-white flex items-center gap-2">
+                <i class="fa-solid fa-trophy text-brand-gold"></i> ${divName} Division
+              </h3>
+            </div>
+            <div class="grid grid-cols-1 ${(champion && interimChamps.length > 0) ? 'md:grid-cols-2' : ''} gap-4">
+              ${champBlock}
+              ${interimBlock}
+            </div>
+            ${contendersBlock}
+            ${unrankedBlock}
+          </div>
+        `;
+      });
+
+      container.innerHTML = outputHTML || '<div class="py-16 text-center text-slate-500 font-mono text-sm">No fighters found.</div>';
+    }
+
+    function openFighterProfileModal(id) {
+      const f = fighters.find(x => x.id === id);
+      if (!f) return;
+
+      document.getElementById('modalFighterName').textContent = f.name;
+      document.getElementById('modalFighterNickname').textContent = f.nickname ? `"${f.nickname}"` : '';
+      
+      let badgeText = f.division;
+      if (f.champStatus === 'champion') badgeText += ' • UNDISPUTED CHAMPION';
+      else if (f.champStatus === 'interim') badgeText += ' • INTERIM CHAMPION';
+      else if (f.rank > 0 && f.rank <= 10) badgeText += ` • #${f.rank} CONTENDER`;
+      document.getElementById('modalFighterBadge').textContent = badgeText;
+
+      document.getElementById('modalFighterHometown').textContent = f.hometown || 'Not Listed';
+      document.getElementById('modalFighterNationality').textContent = f.nationality || 'Not Listed';
+
+      document.getElementById('modalFighterHeight').textContent = f.height || "5'10";
+      document.getElementById('modalFighterStance').textContent = f.stance || "Orthodox";
+      document.getElementById('modalFighterRecord').textContent = f.record || "0-0-0";
+      document.getElementById('modalFighterStyle').textContent = f.style || "MMA";
+
+      document.getElementById('modalFighterStr').textContent = f.str;
+      document.getElementById('modalFighterGrp').textContent = f.grp;
+      document.getElementById('modalFighterSta').textContent = f.sta;
+      document.getElementById('modalFighterHp').textContent = f.hp;
+
+      document.getElementById('modalFighterBio').textContent = f.bio || 'No biography recorded in spreadsheet.';
+      document.getElementById('fighterProfileModal').classList.remove('hidden');
+    }
+
+    function closeFighterProfileModal() {
+      document.getElementById('fighterProfileModal').classList.add('hidden');
+    }
+
+    // Unified Chronological Schedule: Sorted by Date with Clean Card Spacing
+    function renderEvents() {
+      const unifiedContainer = document.getElementById('eventsListUnified');
+
+      if (!events || events.length === 0) {
+        unifiedContainer.innerHTML = '<div class="p-8 text-center text-slate-500 text-xs font-mono">No events found in spreadsheet.</div>';
+        return;
+      }
+
+      const sortedEvents = [...events].sort((a, b) => {
+        const dateA = new Date(a.date).getTime() || 0;
+        const dateB = new Date(b.date).getTime() || 0;
+        return dateA - dateB;
+      });
+
+      unifiedContainer.innerHTML = sortedEvents.map((evt, idx) => {
+        const isPPV = evt.type === 'PPV';
+        
+        return `
+          <article class="bg-brand-surface ${isPPV ? 'border-2 border-brand-gold/70 shadow-2xl shadow-amber-950/20' : 'border border-brand-border/90 shadow-xl'} rounded-3xl p-6 sm:p-8 space-y-6 relative transition-all">
+            <div class="flex flex-wrap items-center justify-between border-b border-brand-border/80 pb-5 gap-3">
+              <div class="flex items-center gap-3">
+                <span class="${isPPV ? 'bg-red-600 text-white shadow-lg shadow-red-600/40 ring-2 ring-red-400' : 'bg-brand-card text-brand-gold border border-brand-border'} text-xs font-black uppercase px-3.5 py-1.5 rounded-lg tracking-wider">
+                  ${evt.type || 'Event'}
+                </span>
+                <div>
+                  <h3 class="text-2xl sm:text-3xl font-black text-white uppercase tracking-wide leading-tight">${evt.name}</h3>
+                  <div class="flex flex-wrap items-center gap-4 text-xs text-slate-300 mt-1">
+                    <span class="font-mono text-brand-gold flex items-center gap-1.5"><i class="fa-regular fa-calendar"></i>${evt.date}</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-slate-400"></i>${evt.venue}</span>
+                  </div>
+                </div>
+              </div>
+              <span class="text-xs font-mono font-bold text-slate-500 uppercase tracking-widest bg-brand-dark/70 px-3 py-1 rounded-full border border-brand-border/60">
+                Card #${idx + 1}
+              </span>
+            </div>
+
+            <div class="space-y-3.5">
+              ${evt.fights.map((f, i) => {
+                const tier = f.cardTier;
+                const fighter1Html = renderFighterNameWithChampBadge(f.f1, f.f1Champ);
+                const fighter2Html = renderFighterNameWithChampBadge(f.f2, f.f2Champ);
+                const roundsLabel = `${f.rounds} Rounds`;
+                
+                // MAIN EVENT: Red combat styling
+                if (tier === 'main' || i === 0) {
+                  return `
+                    <div class="bg-gradient-to-r from-red-950/70 via-brand-dark to-red-950/40 p-5 sm:p-6 rounded-2xl border-2 border-red-500 shadow-2xl space-y-2">
+                      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-red-500/40 pb-2.5">
+                        <div class="flex items-center gap-2">
+                          <span class="text-xs font-black uppercase tracking-widest text-red-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-fire text-amber-400 animate-pulse"></i> MAIN EVENT
+                          </span>
+                          ${f.isTitleFight ? `
+                            <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-brand-gold text-black flex items-center gap-1 font-bold shadow">
+                              <i class="fa-solid fa-crown text-[9px]"></i> Title Bout
+                            </span>
+                          ` : ''}
+                        </div>
+                        <div class="flex items-center gap-2">
+                          <span class="text-xs font-bold uppercase tracking-wider text-amber-300 font-mono">${(f.div || '').toUpperCase()}</span>
+                          <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-red-600 text-white">${roundsLabel}</span>
+                        </div>
+                      </div>
+                      
+                      <div class="py-2 flex items-center">
+                        <div class="flex items-center gap-4 text-xl sm:text-2xl font-black text-white">
+                          <div class="inline-flex items-center">${fighter1Html}</div>
+                          <span class="text-xs uppercase font-extrabold px-2 py-0.5 rounded bg-red-600 text-white shrink-0 self-center">VS</span>
+                          <div class="inline-flex items-center">${fighter2Html}</div>
+                        </div>
+                      </div>
+                    </div>
+                  `;
+                }
+
+                // CO-MAIN EVENT: Blue combat styling
+                if (tier === 'comain' || i === 1) {
+                  return `
+                    <div class="bg-gradient-to-r from-blue-950/60 via-brand-dark to-blue-950/30 p-4 sm:p-5 rounded-2xl border-2 border-blue-500/80 shadow-lg space-y-2">
+                      <div class="flex items-center justify-between border-b border-blue-500/30 pb-2">
+                        <div class="flex items-center gap-2">
+                          <span class="text-[10px] font-black uppercase tracking-wider text-blue-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-star text-blue-400"></i> CO-MAIN EVENT
+                          </span>
+                          ${f.isTitleFight ? `
+                            <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-brand-gold text-black flex items-center gap-1 font-bold shadow">
+                              <i class="fa-solid fa-crown text-[8px]"></i> Title Bout
+                            </span>
+                          ` : ''}
+                        </div>
+                        <div class="flex items-center gap-2">
+                          <span class="text-xs font-bold uppercase text-blue-200 font-mono">${(f.div || '').toUpperCase()}</span>
+                          <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-900/80 text-blue-200 border border-blue-700/60">${roundsLabel}</span>
+                        </div>
+                      </div>
+                      <div class="flex items-center py-1">
+                        <div class="flex items-center gap-3 text-base sm:text-lg font-bold text-white">
+                          <div class="inline-flex items-center">${fighter1Html}</div>
+                          <span class="text-xs font-bold text-blue-400 uppercase px-1.5 py-0.5 rounded bg-blue-950 border border-blue-800 shrink-0 self-center">vs</span>
+                          <div class="inline-flex items-center">${fighter2Html}</div>
+                        </div>
+                      </div>
+                    </div>
+                  `;
+                }
+
+                // UNDERCARD: Selectable Main Card vs Prelims
+                const isMainCard = f.cardSection === 'main card';
+                const sectionBadge = isMainCard ? 
+                  `<span class="text-[10px] font-black uppercase px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/40 tracking-wider">Main Card</span>` :
+                  `<span class="text-[10px] font-black uppercase px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 tracking-wider">Prelims</span>`;
+
+                return `
+                  <div class="bg-brand-dark/60 hover:bg-brand-dark/90 px-4 py-3 rounded-xl border border-brand-border/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs transition-colors">
+                    <div class="flex items-center gap-3">
+                      <span class="w-32 shrink-0 text-center font-mono font-bold uppercase text-[10px] px-2 py-1 rounded bg-brand-surface border border-brand-border text-slate-300">
+                        ${f.div}
+                      </span>
+                      <div class="flex items-center gap-2 font-semibold text-slate-100 text-sm">
+                        <div class="inline-flex items-center">${fighter1Html}</div>
+                        <span class="text-slate-500 text-xs font-normal shrink-0 self-center">vs</span>
+                        <div class="inline-flex items-center">${fighter2Html}</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-2.5 shrink-0 sm:justify-end">
+                      ${f.isTitleFight ? `<span class="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-brand-gold text-black flex items-center gap-1 font-bold"><i class="fa-solid fa-crown text-[8px]"></i> Title Bout</span>` : ''}
+                      ${sectionBadge}
+                      <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-brand-card text-slate-400 border border-brand-border/80 font-mono">${roundsLabel}</span>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // Media Renderer
+    function renderMedia() {
+      const featContainer = document.getElementById('mediaFeaturedContainer');
+      const gridContainer = document.getElementById('mediaGridContainer');
+
+      if (!media || media.length === 0) {
+        featContainer.innerHTML = '';
+        gridContainer.innerHTML = `
+          <div class="col-span-full py-16 text-center text-slate-500 font-mono text-sm">
+            <i class="fa-solid fa-microphone-lines-slash text-3xl mb-3 block text-slate-600"></i>
+            No press conferences or media briefings recorded yet. Add a row to the "Media" tab in your Google Sheet to publish!
+          </div>
+        `;
+        return;
+      }
+
+      const featured = media.find(m => m.featured) || media[0];
+      const remaining = media.filter(m => m.id !== featured?.id);
+
+      if (featured) {
+        const featDisplayPreview = featured.preview ? featured.preview : makeCleanPreview(featured.content, 260);
+
+        featContainer.innerHTML = `
+          <div class="w-full bg-gradient-to-r from-red-950/70 via-brand-dark to-red-950/40 p-6 sm:p-8 rounded-2xl border-2 border-red-500 shadow-2xl shadow-red-950/30 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-red-500/40 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-black uppercase tracking-widest text-red-400 flex items-center gap-1.5">
+                  <i class="fa-solid fa-fire text-amber-400 animate-pulse"></i> FEATURED MEDIA
+                </span>
+                <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-red-600 text-white shadow ring-1 ring-red-400/50">
+                  <i class="fa-solid fa-video mr-1 text-[9px]"></i> ${featured.type || 'Press Conference'}
+                </span>
+                ${featured.event ? `<span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-brand-dark text-brand-gold border border-brand-gold/40">${featured.event}</span>` : ''}
+              </div>
+              <span class="text-xs font-mono text-slate-400">${featured.date}</span>
+            </div>
+            
+            <h3 class="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">${featured.title}</h3>
+            
+            ${featured.participants ? `
+              <div class="text-xs text-slate-300 flex items-center gap-2">
+                <span class="font-bold text-red-400 uppercase tracking-wider">Panel:</span>
+                <span>${featured.participants}</span>
+              </div>
+            ` : ''}
+            
+            <div class="text-sm text-slate-300 leading-relaxed bg-brand-dark/80 p-5 rounded-xl border border-red-500/30 w-full">
+              ${featDisplayPreview}
+            </div>
+
+            <div class="flex justify-end pt-1">
+              <button onclick="openMediaReaderModal('${featured.id}')" class="px-5 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider bg-red-600 hover:bg-red-500 text-white shadow-lg shadow-red-600/30 flex items-center gap-2 transition-all">
+                <i class="fa-solid fa-book-open"></i> Read Full Transcript
+              </button>
+            </div>
+          </div>
+        `;
+      } else {
+        featContainer.innerHTML = '';
+      }
+
+      gridContainer.innerHTML = remaining.map(m => {
+        const gridDisplayPreview = m.preview ? m.preview : makeCleanPreview(m.content, 140);
+
+        return `
+          <div class="bg-brand-surface border border-brand-border hover:border-red-500/50 rounded-xl p-5 shadow-lg flex flex-col justify-between transition-all space-y-4">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="px-2 py-0.5 rounded bg-red-950/70 text-red-400 font-bold uppercase text-[10px] border border-red-800">${m.type || 'Media'}</span>
+                <span class="text-slate-400 font-mono text-[11px]">${m.date}</span>
+              </div>
+              ${m.event ? `<div class="text-[10px] text-brand-gold uppercase font-bold tracking-wider">${m.event}</div>` : ''}
+              <h4 class="text-base font-bold text-white leading-snug">${m.title}</h4>
+              ${m.participants ? `<p class="text-[11px] text-slate-400"><strong class="text-slate-300">Panel:</strong> ${m.participants}</p>` : ''}
+              
+              <p class="text-xs text-slate-300 leading-relaxed pt-1">${gridDisplayPreview}</p>
+            </div>
+            
+            <button onclick="openMediaReaderModal('${m.id}')" class="w-full py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-brand-card hover:bg-brand-border text-red-400 hover:text-white border border-brand-border transition-all flex items-center justify-center gap-2">
+              <i class="fa-solid fa-align-left text-[11px]"></i> Read Transcript
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Modal Transcript Reader
+    function openMediaReaderModal(id) {
+      const item = media.find(x => x.id === id);
+      if (!item) return;
+
+      document.getElementById('readerModalType').textContent = item.type || 'Press Conference';
+      document.getElementById('readerModalDate').textContent = item.date || '';
+      document.getElementById('readerModalTitle').textContent = item.title || '';
+      document.getElementById('readerModalPanel').textContent = item.participants ? `Panel: ${item.participants}` : '';
+      
+      document.getElementById('readerModalBody').innerHTML = formatTranscriptHTML(item.content || '<i>No transcript text available.</i>');
+      document.getElementById('mediaReaderModal').classList.remove('hidden');
+    }
+
+    function closeMediaReaderModal() {
+      document.getElementById('mediaReaderModal').classList.add('hidden');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadDataFromGoogleSheet();
+    });
+  </script>
+</body>
+</html>
